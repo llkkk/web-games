@@ -1,4 +1,15 @@
+/* 站点主题：浅色极简（对标 bghall.cn 的工具感） */
 :root {
+  --paper: #faf9f6;
+  --card: #ffffff;
+  --border: #e9e4d8;
+  --text: #1c1a16;
+  --muted: #8a8474;
+  --accent: #2f6fed;
+}
+
+/* 游戏舞台：游戏本体保持深色，变量作用域隔离 */
+.game-stage {
   --bg: #0d1220;
   --bg-soft: #141b2e;
   --card: #182136;
@@ -6,56 +17,76 @@
   --text: #e8ecf4;
   --muted: #8b96b3;
   --accent: #4f8cff;
+  background: var(--bg);
+  color: var(--text);
+  border-radius: 16px;
+  padding: 28px 20px;
+  margin-top: 16px;
 }
 
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
-  font-family: -apple-system, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Segoe UI', sans-serif;
-  background: var(--bg);
+  background: var(--paper);
   color: var(--text);
+  font-family: -apple-system, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Segoe UI', sans-serif;
   min-height: 100vh;
 }
 
-.app { min-height: 100vh; display: flex; flex-direction: column; }
+.site { min-height: 100vh; display: flex; flex-direction: column; }
 
 .topbar {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 12px 20px; background: var(--bg-soft);
   border-bottom: 1px solid var(--border);
-  position: sticky; top: 0; z-index: 10;
+  padding: 14px 20px;
+  background: var(--paper);
 }
-
 .brand {
-  background: none; border: none; color: var(--text);
-  font-size: 20px; font-weight: 700; cursor: pointer;
-  display: flex; gap: 8px; align-items: center; font-family: inherit;
+  text-decoration: none; color: var(--text);
+  font-size: 20px; font-weight: 700;
 }
 
-.back-btn {
-  background: var(--card); color: var(--text);
-  border: 1px solid var(--border); border-radius: 8px;
-  padding: 8px 14px; cursor: pointer; font-size: 14px; font-family: inherit;
+.hall-main, .game-main {
+  flex: 1; width: 100%; max-width: 1000px;
+  margin: 0 auto; padding: 36px 20px;
 }
-.back-btn:hover { border-color: var(--accent); }
 
-.main { flex: 1; padding: 24px 20px; max-width: 1100px; width: 100%; margin: 0 auto; }
-.footer { text-align: center; color: var(--muted); font-size: 12px; padding: 16px; border-top: 1px solid var(--border); }
+.hall-title {
+  font-family: 'Songti SC', 'STSong', 'Noto Serif SC', serif;
+  font-size: 34px; text-align: center;
+  margin: 8px 0 10px; letter-spacing: 2px;
+}
+.hall-sub { text-align: center; color: var(--muted); margin: 0 0 36px; font-size: 14px; }
 
-/* ---- 游戏大厅 ---- */
-.hall-title { font-size: 28px; margin: 8px 0 20px; }
-.hall-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
-
+.hall-grid {
+  display: grid; gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
 .game-card {
-  background: var(--card); border: 1px solid var(--border); border-radius: 12px;
-  padding: 20px; cursor: pointer; color: var(--text);
-  text-align: left; font-family: inherit;
-  transition: transform 0.15s, border-color 0.15s;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 24px 20px;
+  text-decoration: none; color: inherit; display: block;
+  transition: box-shadow 0.15s, transform 0.15s;
 }
-.game-card:hover { transform: translateY(-3px); border-color: var(--accent); }
-.game-icon { font-size: 40px; }
-.game-name { font-size: 18px; font-weight: 700; margin: 12px 0 6px; }
-.game-desc { color: var(--muted); font-size: 13px; line-height: 1.6; margin: 0 0 12px; }
-.game-play { color: var(--accent); font-size: 14px; font-weight: 600; }
-.hall-empty { color: var(--muted); }
+.game-card:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+  transform: translateY(-2px);
+}
+.game-icon { font-size: 44px; }
+.game-name { font-size: 18px; font-weight: 700; margin: 14px 0 6px; }
+.game-desc { color: var(--muted); font-size: 13px; line-height: 1.7; margin: 0 0 12px; }
+.game-meta {
+  font-size: 12px; color: var(--muted);
+  border-top: 1px solid var(--border); padding-top: 10px;
+}
+
+.back-link {
+  color: var(--muted); text-decoration: none; font-size: 14px;
+  display: inline-block; margin-bottom: 4px;
+}
+.back-link:hover { color: var(--text); }
+
+.footer {
+  text-align: center; color: var(--muted); font-size: 12px;
+  padding: 24px; border-top: 1px solid var(--border);
+}

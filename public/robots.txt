@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://web-games-c0n.pages.dev/sitemap.xml
