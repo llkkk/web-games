@@ -23,7 +23,7 @@ export default function App() {
       <main className="main">
         {active && ActiveComponent ? <ActiveComponent /> : <Hall onPick={setActiveId} />}
       </main>
-      <footer className="footer">Web Games · 纯前端小游戏合集</footer>
+      <footer className="footer">Web Games · 免费在线小游戏</footer>
     </div>
   );
 }

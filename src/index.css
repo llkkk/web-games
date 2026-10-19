@@ -44,8 +44,7 @@ body {
 .footer { text-align: center; color: var(--muted); font-size: 12px; padding: 16px; border-top: 1px solid var(--border); }
 
 /* ---- 游戏大厅 ---- */
-.hall-title { font-size: 28px; margin: 8px 0 4px; }
-.hall-sub { color: var(--muted); margin: 0 0 24px; }
+.hall-title { font-size: 28px; margin: 8px 0 20px; }
 .hall-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
 
 .game-card {

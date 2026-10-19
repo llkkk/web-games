@@ -8,7 +8,7 @@ export const GAMES = [
   {
     id: 'minesweeper',
     name: '扫雷',
-    description: '经典扫雷：初级 9×9 / 中级 16×16 / 高级 16×30，支持手机触屏标记模式',
+    description: '经典扫雷，三种难度，手机电脑都能玩',
     icon: '💣',
     Component: Minesweeper,
   },

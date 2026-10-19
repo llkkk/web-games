@@ -4,7 +4,6 @@ export default function Hall({ onPick }) {
   return (
     <div>
       <h1 className="hall-title">🎮 游戏大厅</h1>
-      <p className="hall-sub">挑选一个小游戏开始玩 —— 全部纯前端，打开即玩</p>
       <div className="hall-grid">
         {GAMES.map((g) => (
           <button key={g.id} className="game-card" onClick={() => onPick(g.id)}>

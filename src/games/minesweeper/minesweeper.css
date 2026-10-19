@@ -9,6 +9,8 @@
 }
 .ms-diff.active { border-color: var(--accent); color: var(--accent); font-weight: 700; }
 
+.ms-best { color: var(--muted); font-size: 13px; margin: -8px 0 14px; }
+
 .ms-banner { text-align: center; font-size: 18px; font-weight: 700; margin-bottom: 12px; }
 .ms-banner.won { color: #3ddc84; }
 .ms-banner.lost { color: #ff5d5d; }
@@ -58,7 +60,7 @@
 .cell.n7 { color: #e8ecf4; }
 .cell.n8 { color: #8b96b3; }
 
-.ms-touchbar { display: flex; gap: 8px; margin-top: 14px; justify-content: center; }
+.ms-touchbar { display: flex; gap: 8px; margin-bottom: 14px; justify-content: center; }
 .ms-mode {
   background: var(--card); border: 1px solid var(--border); color: var(--text);
   border-radius: 8px; padding: 8px 18px; cursor: pointer; font-size: 14px; font-family: inherit;

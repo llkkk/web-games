@@ -78,6 +78,16 @@ function fmt(n) {
   return (v < 0 ? '-' : '') + String(Math.abs(v)).padStart(3, '0');
 }
 
+function bestKey(diff) { return `webgames-minesweeper-best-${diff}`; }
+function loadBest(diff) {
+  try {
+    const v = localStorage.getItem(bestKey(diff));
+    return v == null ? null : parseInt(v, 10);
+  } catch {
+    return null;
+  }
+}
+
 export default function Minesweeper() {
   const [diffKey, setDiffKey] = useState('beginner');
   const { rows, cols, mines } = DIFFICULTIES[diffKey];
@@ -87,8 +97,10 @@ export default function Minesweeper() {
   const [flagCount, setFlagCount] = useState(0);
   const [revealedCount, setRevealedCount] = useState(0);
   const [elapsed, setElapsed] = useState(0);
-  const [touchMode, setTouchMode] = useState('dig'); // dig=挖掘 | flag=标记（触屏用）
+  const [touchMode, setTouchMode] = useState('dig'); // dig=挖掘 | flag=标记
   const [explodedAt, setExplodedAt] = useState(null);
+  const [best, setBest] = useState(() => loadBest('beginner'));
+  const [isNewBest, setIsNewBest] = useState(false);
 
   const reset = () => {
     setCells(null);
@@ -98,9 +110,10 @@ export default function Minesweeper() {
     setRevealedCount(0);
     setElapsed(0);
     setExplodedAt(null);
+    setIsNewBest(false);
   };
 
-  useEffect(() => { reset(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [diffKey]);
+  useEffect(() => { setBest(loadBest(diffKey)); reset(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [diffKey]);
 
   useEffect(() => {
     if (status !== 'playing') return;
@@ -110,6 +123,13 @@ export default function Minesweeper() {
 
   const checkWin = (newRevealed, board, mineTotal) => {
     if (newRevealed === rows * cols - mineTotal) {
+      const prevBest = loadBest(diffKey);
+      const newRecord = prevBest == null || elapsed < prevBest;
+      if (newRecord) {
+        try { localStorage.setItem(bestKey(diffKey), String(elapsed)); } catch { /* ignore */ }
+        setBest(elapsed);
+      }
+      setIsNewBest(newRecord);
       setCells(flagAllMines(board));
       setRevealedCount(newRevealed);
       setFlagCount(mineTotal);
@@ -199,8 +219,10 @@ export default function Minesweeper() {
   };
 
   const handleTap = (r, c) => {
-    if (touchMode === 'flag') toggleFlag(r, c);
-    else revealCell(r, c);
+    // 开局第一下 / 挖掘模式 / 点的是已翻开格 → 走翻开逻辑（已翻开数字会触发快速展开）
+    // 标记模式下点未翻开格 → 插旗；点已翻开数字 → 同样快速展开
+    if (!cells || touchMode === 'dig' || cells[r][c].revealed) revealCell(r, c);
+    else toggleFlag(r, c);
   };
 
   const renderCell = (cell, r, c) => {
@@ -238,7 +260,7 @@ export default function Minesweeper() {
   return (
     <div className="ms-wrap">
       <h1 className="ms-title">💣 扫雷</h1>
-      <p className="ms-sub">左键翻开 · 右键标记 · 点击数字快速展开 · 手机用下方标记模式</p>
+      <p className="ms-sub">翻开格子找雷，右键或 🚩 模式可做标记；点击已翻开的数字快速展开周围</p>
 
       <div className="ms-diffs">
         {Object.entries(DIFFICULTIES).map(([key, d]) => (
@@ -251,26 +273,15 @@ export default function Minesweeper() {
           </button>
         ))}
       </div>
+      <div className="ms-best">{best != null ? `🏆 本难度最佳：${best} 秒` : '🏆 本难度暂无纪录，来创一个吧'}</div>
 
-      {status === 'won' && <div className="ms-banner won">🎉 扫清了！用时 {elapsed} 秒</div>}
+      {status === 'won' && <div className="ms-banner won">🎉 扫清了！用时 {elapsed} 秒{isNewBest ? ' · 新纪录！' : ''}</div>}
       {status === 'lost' && <div className="ms-banner lost">💥 踩雷了，再来一局？</div>}
 
       <div className="ms-panel">
         <div className="ms-counter">{fmt(totalMines - flagCount)}</div>
         <button className="ms-face" onClick={reset} title="重新开始">{face}</button>
         <div className="ms-counter">{fmt(elapsed)}</div>
-      </div>
-
-      <div className="ms-board-wrap">
-        <div className="ms-board" style={{ '--cols': cols }}>
-          {cells
-            ? cells.map((row, r) => row.map((cell, c) => renderCell(cell, r, c)))
-            : Array.from({ length: rows }, (_, r) =>
-                Array.from({ length: cols }, (_, c) => (
-                  <button key={`${r}-${c}`} className="cell" onClick={() => handleTap(r, c)} />
-                ))
-              )}
-        </div>
       </div>
 
       <div className="ms-touchbar">
@@ -288,8 +299,20 @@ export default function Minesweeper() {
         </button>
       </div>
 
+      <div className="ms-board-wrap">
+        <div className="ms-board" style={{ '--cols': cols }}>
+          {cells
+            ? cells.map((row, r) => row.map((cell, c) => renderCell(cell, r, c)))
+            : Array.from({ length: rows }, (_, r) =>
+                Array.from({ length: cols }, (_, c) => (
+                  <button key={`${r}-${c}`} className="cell" onClick={() => handleTap(r, c)} />
+                ))
+              )}
+        </div>
+      </div>
+
       <p className="ms-tip">
-        首次点击必不踩雷 · 电脑上右键插旗 · 点已翻开的数字可联动展开<br />
+        第一次点击必不踩雷 · 标记模式下点数字同样可以快速展开<br />
         高级 16×30 在手机上可左右滑动棋盘
       </p>
     </div>
