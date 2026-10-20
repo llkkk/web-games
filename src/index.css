@@ -89,4 +89,7 @@ body {
 .footer {
   text-align: center; color: var(--muted); font-size: 12px;
   padding: 24px; border-top: 1px solid var(--border);
+  line-height: 2;
 }
+.footer a { color: var(--muted); text-decoration: none; margin: 0 8px; }
+.footer a:hover { color: var(--accent); }

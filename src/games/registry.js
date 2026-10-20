@@ -1,5 +1,6 @@
 import Minesweeper from './minesweeper/Minesweeper.jsx';
 import SonarMaze from './sonar-maze/SonarMaze.jsx';
+import KitchenDefense from './kitchen-defense/KitchenDefense.jsx';
 
 /**
  * 游戏注册表：新增游戏 3 步
@@ -26,5 +27,14 @@ export const GAMES = [
     path: '/sonar-maze/',
     meta: '单人 · 约 10 分钟 · 解谜',
     Component: SonarMaze,
+  },
+  {
+    id: 'kitchen-defense',
+    name: '深夜厨房保卫战',
+    description: '原创塔防：用辣椒、西瓜、咖啡建塔，守住冰箱别被虫鼠大军搬空',
+    icon: '🌶️',
+    path: '/kitchen-defense/',
+    meta: '单人 · 约 10 分钟 · 塔防',
+    Component: KitchenDefense,
   },
 ];

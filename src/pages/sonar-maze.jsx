@@ -15,7 +15,7 @@ function Page() {
           <SonarMaze />
         </div>
       </main>
-      <footer className="footer">Web Games · 免费在线小游戏</footer>
+      <footer className="footer">Web Games · 免费在线小游戏<br /><a href="/about/">关于</a><a href="/privacy/">隐私</a><a href="/contact/">联系</a></footer>
     </div>
   );
 }
